@@ -7,9 +7,11 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "ui": "npx --yes ui-thing@latest add"
   },
   "dependencies": {
+    "@pinia/nuxt": "^0.5.1",
     "nuxt": "^3.10.2",
     "radix-vue": "^1.4.6",
     "tailwind-variants": "^0.2.0",
@@ -17,10 +19,12 @@
     "vue-router": "^4.2.5"
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.4.1",
     "@ianvs/prettier-plugin-sort-imports": "^4.1.1",
     "@nuxtjs/color-mode": "^3.3.2",
     "@nuxtjs/tailwindcss": "^6.11.4",
     "@vueuse/nuxt": "^10.7.2",
+    "nuxt-auth-utils": "^0.0.16",
     "nuxt-icon": "^0.6.8",
     "prettier": "^3.2.5",
     "prettier-plugin-tailwindcss": "^0.5.11",

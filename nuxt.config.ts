@@ -1,7 +1,14 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  modules: ["@nuxtjs/tailwindcss", "@nuxtjs/color-mode", "@vueuse/nuxt", "nuxt-icon"],
+  modules: [
+    "@nuxtjs/tailwindcss",
+    "@nuxtjs/color-mode",
+    "@vueuse/nuxt",
+    "nuxt-icon",
+    "@pinia/nuxt",
+    "nuxt-auth-utils",
+  ],
 
   tailwindcss: {
     exposeConfig: true,
@@ -28,4 +35,11 @@ export default defineNuxtConfig({
       },
     ],
   },
+
+  app: {
+    head: {
+      title: "Protect Server Endpoints",
+      titleTemplate: "%s - Protect Server Endpoints"
+    }
+  }
 });
