@@ -3,21 +3,30 @@ type User = {
   name: string;
   email: string;
   avatar: string;
-}
+};
 
-export const useUsersStore = defineStore('Users', () => {
-  const users = ref<User[]>([])
+export const useUsersStore = defineStore("Users", () => {
+  const users = ref<User[]>([]);
 
-  async function loadData() {
-    users.value = await $fetch('/api/users')
-  }
+  const loadData = async () => {
+    try {
+      users.value = await $fetch("/api/users");
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.data.message,
+        variant: "destructive",
+        duration: 5000,
+      });
+    }
+  };
 
   return {
     users,
-    loadData
-  }
-})
+    loadData,
+  };
+});
 
 if (import.meta.hot) {
-  import.meta.hot.accept(acceptHMRUpdate(useUsersStore, import.meta.hot))
+  import.meta.hot.accept(acceptHMRUpdate(useUsersStore, import.meta.hot));
 }

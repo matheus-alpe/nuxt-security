@@ -1,54 +1,66 @@
-<script lang="ts" setup>
-const { loggedIn, user, session, clear } = useUserSession()
 
-const usersStore = useUsersStore()
-const headers = ["ID", "Name", "Email"]
+<script lang="ts" setup>
+const { users } = storeToRefs(useUsersStore());
+const { loadData } = useUsersStore();
+const headers = ["ID", "Name", "Email"];
+
+useHead({
+  title: "Users",
+  meta: [
+    {
+      name: "description",
+      content: "Manage users here",
+    },
+  ],
+});
 </script>
 
 <template>
-  <UiContainer as="section" class="py-5 max-w-4xl">
-    <div class="flex items-center justify-between gap-5">
-      <div>
-        <h1 class="font-semibold text-2xl">Users</h1>
-        <p class="mt-1 text-muted-foreground">Manage users here</p>
+  <div>
+    <UiContainer as="section" class="max-w-4xl py-5">
+      <div class="flex items-center justify-between gap-5">
+        <div>
+          <h1 class="text-2xl font-semibold">Users</h1>
+          <p class="mt-1 text-muted-foreground">Manage users here</p>
+        </div>
+
+        <UiButton @click="loadData" size="sm">Load users</UiButton>
       </div>
 
-      <UiButton size="sm" @click="usersStore.loadData">Load users</UiButton>
-    </div>
+      <UiDivider class="my-10" />
 
-    <UiDivider class="my-10" />
+      <div v-if="!users.length" class="flex flex-col items-center gap-5">
+        <Icon size="28" class="text-muted-foreground" name="lucide:users" />
+        <p>No users loaded</p>
+      </div>
 
-    <div v-if="!usersStore.users.length" class="flex flex-col gap-5 items-center">
-      <Icon name="lucide:users" size="28" class="text-muted-foreground" />
-      <p>No users uploaded</p>
-    </div>
+      <div v-else class="overflow-x-auto rounded-lg border bg-background">
+        <UiTable>
+          <UiTableHeader>
+            <UiTableRow>
+              <UiTableHead v-for="h in headers">{{ h }}</UiTableHead>
+            </UiTableRow>
+          </UiTableHeader>
 
-    <div v-else class="overflow-x-auto rounded-lg bg-background border">
-      <UiTable>
-        <UiTableHeader>
-          <UiTableRow>
-            <UiTableHead v-for="h in headers">{{ h }}</UiTableHead>
-          </UiTableRow>
-        </UiTableHeader>
+          <UiTableBody>
+            <UiTableRow v-for="user in users" :key="user.id">
+              <UiTableCell>{{ user.id }}</UiTableCell>
 
-        <UiTableBody>
-          <UiTableRow v-for="user in usersStore.users" :key="user.id">
-            <UiTableCell>{{ user.id }}</UiTableCell>
-            <UiTableCell>
-              <div class="flex items-center gap-3">
-                <UiAvatar :src="user.avatar" :alt="user.name" />
-                <span>{{ user.name }}</span>
-              </div>
-            </UiTableCell>
-            <UiTableCell>
-              <a :href="`mailto:${user.email}`"
-                class="text-muted-foreground decoration-sky-400 hover:text-sky-500 transition underline underline-offset-2">{{
-                  user.email
-                }}</a>
-            </UiTableCell>
-          </UiTableRow>
-        </UiTableBody>
-      </UiTable>
-    </div>
-  </UiContainer>
+              <UiTableCell>
+                <div class="flex items-center gap-3">
+                  <UiAvatar :src="user.avatar" :alt="user.name" />
+                  <span>{{ user.name }}</span>
+                </div>
+              </UiTableCell>
+
+              <UiTableCell>
+                <a class="text-muted-foreground underline decoration-sky-400 underline-offset-2 transition hover:text-sky-500"
+                  :href="`mailto:${user.email}`">{{ user.email }}</a>
+              </UiTableCell>
+            </UiTableRow>
+          </UiTableBody>
+        </UiTable>
+      </div>
+    </UiContainer>
+  </div>
 </template>
