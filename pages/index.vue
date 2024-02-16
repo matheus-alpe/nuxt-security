@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+const { loggedIn, user, session, clear } = useUserSession()
+
 const usersStore = useUsersStore()
 const headers = ["ID", "Name", "Email"]
 </script>
